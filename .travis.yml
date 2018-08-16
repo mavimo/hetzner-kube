@@ -25,4 +25,5 @@ script:
   - unparam $(go list ./...)
   - staticcheck $(go list ./...)
   - go build
-  - make
+  - make info
+  - make context
