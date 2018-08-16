@@ -30,4 +30,5 @@ script:
   - make info
   - make context
   - make ssh-key
+  - make cluster
   - make cleanup
