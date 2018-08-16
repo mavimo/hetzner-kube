@@ -24,3 +24,5 @@ script:
   - misspell -error $(git ls-files | grep -v vendor/)
   - unparam $(go list ./...)
   - staticcheck $(go list ./...)
+  - go build
+  - make
