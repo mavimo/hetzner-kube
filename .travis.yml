@@ -26,9 +26,15 @@ script:
   - misspell -error $(git ls-files | grep -v vendor/)
   - unparam $(go list ./...)
   - staticcheck $(go list ./...)
-  - go build
-  - make info
-  - make context
-  - make ssh-key
-  - make cluster
-  - make cleanup
+
+jobs:
+  include:
+    - stage: e2e test
+      script:
+        - go build
+        - make info
+        - make context
+        - make ssh-key
+        - make cluster
+        - make cleanup
+      go: 1.10.x
