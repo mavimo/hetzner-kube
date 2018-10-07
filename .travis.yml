@@ -18,6 +18,9 @@ before_install:
   - go get -u mvdan.cc/unparam
   - go get -u github.com/client9/misspell/cmd/misspell
 
+after_script:
+  - make hard-cleanup
+
 script:
   - golint cmd/ pkg/
   - go test -v ./...
@@ -32,9 +35,7 @@ jobs:
     - stage: e2e test
       script:
         - go build
-        - make info
-        - make context
-        - make ssh-key
-        - make cluster
+        - make preparare
+        - make test-all
         - make cleanup
       go: 1.10.x
