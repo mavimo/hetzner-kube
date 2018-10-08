@@ -7,6 +7,25 @@ SSH_KEY_NAME=testing-ssh-key-${TRAVIS_JOB_NUMBER}
 CONTEXT_NAME=testing-context-${TRAVIS_JOB_NUMBER}
 CLUSTER_NAME=testing-cluster-${TRAVIS_JOB_NUMBER}
 
+VERSION=$$(cat cmd/version.go  | grep Version\ = | awk '{ print $$4 }' | awk -F '"' '{ print $$2 }')
+
+build-cleanup:
+	@rm -rf dist/${VERSION}
+
+build-prepare:
+	@dep ensure
+
+build: build-cleanup build-prepare
+	@mkdir -p dist/${VERSION}
+	@GOOS=linux   GOARCH=amd64 go build -o dist/${VERSION}/hetzner-kube-linux-amd64
+	@GOOS=linux   GOARCH=386   go build -o dist/${VERSION}/hetzner-kube-linux-386
+	@GOOS=linux   GOARCH=arm   go build -o dist/${VERSION}/hetzner-kube-linux-arm
+	@GOOS=linux   GOARCH=arm64 go build -o dist/${VERSION}/hetzner-kube-linux-arm64
+	@GOOS=darwin  GOARCH=amd64 go build -o dist/${VERSION}/hetzner-kube-darwin-amd64
+	@GOOS=darwin  GOARCH=386   go build -o dist/${VERSION}/hetzner-kube-darwin-386
+	@GOOS=windows GOARCH=amd64 go build -o dist/${VERSION}/hetzner-kube-windows-amd64.exe
+	@GOOS=windows GOARCH=386   go build -o dist/${VERSION}/hetzner-kube-windows-386.exe
+
 preparare:
 	mkdir -p ${SSH_KEY_FOLDER}
 	ssh-keygen -t rsa -b 4096 -P "" -f ${SSH_KEY_FOLDER}/id_rsa
