@@ -48,6 +48,7 @@ jobs:
       script:
         - echo "Build binary ..."
         - make build
+        - ls dist
       go: 1.10.x
       if: tag IS present
 
