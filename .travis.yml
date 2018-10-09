@@ -7,43 +7,42 @@ cache:
     - vendor
 
 go:
-  - 1.9.x
+#   - 1.9.x
   - 1.10.x
-  - 1.11.x
-  - tip
+#   - 1.11.x
+#   - tip
 
 go_import_path: github.com/xetys/hetzner-kube
 
 before_install:
   - go get -v github.com/golang/dep/cmd/dep
   - dep ensure
-  - go get -v github.com/golang/lint/golint
-  - go get -u honnef.co/go/tools/...
-  - go get -u mvdan.cc/unparam
-  - go get -u github.com/client9/misspell/cmd/misspell
+#   - go get -v github.com/golang/lint/golint
+#   - go get -u honnef.co/go/tools/...
+#   - go get -u mvdan.cc/unparam
+#   - go get -u github.com/client9/misspell/cmd/misspell
 
 after_script:
   - make hard-cleanup
 
+script:
+#   - golint cmd/ pkg/
+  - go test -v ./...
+#   - unused $(go list ./...)
+#   - gosimple $(go list ./...)
+#   - misspell -error $(git ls-files | grep -v vendor/)
+#   - unparam $(go list ./...)
+#   - staticcheck $(go list ./...)
+
 jobs:
   include:
-    - stage: Linting & Testing
-      script:
-        - golint cmd/ pkg/
-        - go test -v ./...
-        - unused $(go list ./...)
-        - gosimple $(go list ./...)
-        - misspell -error $(git ls-files | grep -v vendor/)
-        - unparam $(go list ./...)
-        - staticcheck $(go list ./...)
-
-    - stage: E2E testing
-      script:
-        - go build
-        - make preparare
-        - make test-all
-        - make cleanup
-      go: 1.10.x
+    # - stage: E2E testing
+    #   script:
+    #     - go build
+    #     - make preparare
+    #     - make test-all
+    #     - make cleanup
+    #   go: 1.10.x
 
     - stage: Build
       script:
@@ -61,8 +60,9 @@ jobs:
         # - generate new token using `public_repo` scope
         # - encrypt it using: `travis encrypt API_KEY_HERE`
         # - paste the output below
-        api_key: "LzOxQbTPtq6qXB02TuZN8Eo6yQXK3IjzL66sow0HG3EOL04GQu58RyTh9GYGbGR6bM6VJFkc7MbesLv7EQxTt8+nmz9IU1hGDGvOH0Gmp1tyxnCoDyW1PrONL3Y/WVhkxT74jCM3Yx+fi27YY4d8+nQ35l5716uwsKUJpSsfJqtrlo6Lb9UQNOttuuHM/CYwy2/E6dex3aykB8E+D+QtYX56q/7B54kRwmIYxt8/tO6ZYcy3v/P1bAM8IlLu02SKBpzfZTy6Xet8/nahPFGVixZFoP8id4aAz5nnSHiohgLUhreYrQzpvO4h3VbWfqp0CZyWELzeILGyoyviyYjb/q7t3tgTifrIiXbBK8RQILqhxqWoSQ7jcAgNu+0jW+QF91HWYqM0qfbf7j6IY/+Yru04rFSb+xnR8XUjTBTRB0RfktQHM0sKoOY3rvSV7Fz3jyR6KUD4HRk5tq7wcOKN3qjcoX1eVteTpai14ysibCVSXuL9v6VreG1mXJYgJ7b3rELjXpYNtGlk6odWbrj7qtD5FiaCayyUYMId+T8QkyXGXpFPOmjh/HXnXlX7tLnuwBqbrbeS8wFVVBbgUxJH4FyIM+7TJP9JOkSE/l5RHf/iJFtjgzZ6FyLmQw4Z8OYjXjfm6royYGslyz68qo4BY/npoXKNCzSHXtjyspsJ9Xo="
+        api_key: $GITHUB_OAUTH_TOKEN
         file: dist/*
+        file_glob: true
         skip_cleanup: true
         on:
           tags: true
