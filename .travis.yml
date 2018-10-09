@@ -37,13 +37,13 @@ jobs:
         - unparam $(go list ./...)
         - staticcheck $(go list ./...)
 
-    - stage: E2E testing
-      script:
-        - go build
-        - make preparare
-        - make test-all
-        - make cleanup
-      go: 1.10.x
+    # - stage: E2E testing
+    #   script:
+    #     - go build
+    #     - make preparare
+    #     - make test-all
+    #     - make cleanup
+    #   go: 1.10.x
 
     - stage: Build
       script:
