@@ -7,10 +7,10 @@ cache:
     - vendor
 
 go:
-  - 1.9.x
+#   - 1.9.x
   - 1.10.x
-  - 1.11.x
-  - tip
+#   - 1.11.x
+#   - tip
 
 go_import_path: github.com/xetys/hetzner-kube
 
@@ -25,25 +25,24 @@ before_install:
 after_script:
   - make hard-cleanup
 
+script:
+  - golint cmd/ pkg/
+  - go test -v ./...
+  - unused $(go list ./...)
+  - gosimple $(go list ./...)
+  - misspell -error $(git ls-files | grep -v vendor/)
+  - unparam $(go list ./...)
+  - staticcheck $(go list ./...)
+
 jobs:
   include:
-    - stage: Linting & Testing
-      script:
-        - golint cmd/ pkg/
-        - go test -v ./...
-        - unused $(go list ./...)
-        - gosimple $(go list ./...)
-        - misspell -error $(git ls-files | grep -v vendor/)
-        - unparam $(go list ./...)
-        - staticcheck $(go list ./...)
-
-    - stage: E2E testing
-      script:
-        - go build
-        - make preparare
-        - make test-all
-        - make cleanup
-      go: 1.10.x
+    # - stage: E2E testing
+    #   script:
+    #     - go build
+    #     - make preparare
+    #     - make test-all
+    #     - make cleanup
+    #   go: 1.10.x
 
     - stage: Build
       script:
@@ -61,8 +60,9 @@ jobs:
         # - generate new token using `public_repo` scope
         # - encrypt it using: `travis encrypt API_KEY_HERE`
         # - paste the output below
-        api_key: "LzOxQbTPtq6qXB02TuZN8Eo6yQXK3IjzL66sow0HG3EOL04GQu58RyTh9GYGbGR6bM6VJFkc7MbesLv7EQxTt8+nmz9IU1hGDGvOH0Gmp1tyxnCoDyW1PrONL3Y/WVhkxT74jCM3Yx+fi27YY4d8+nQ35l5716uwsKUJpSsfJqtrlo6Lb9UQNOttuuHM/CYwy2/E6dex3aykB8E+D+QtYX56q/7B54kRwmIYxt8/tO6ZYcy3v/P1bAM8IlLu02SKBpzfZTy6Xet8/nahPFGVixZFoP8id4aAz5nnSHiohgLUhreYrQzpvO4h3VbWfqp0CZyWELzeILGyoyviyYjb/q7t3tgTifrIiXbBK8RQILqhxqWoSQ7jcAgNu+0jW+QF91HWYqM0qfbf7j6IY/+Yru04rFSb+xnR8XUjTBTRB0RfktQHM0sKoOY3rvSV7Fz3jyR6KUD4HRk5tq7wcOKN3qjcoX1eVteTpai14ysibCVSXuL9v6VreG1mXJYgJ7b3rELjXpYNtGlk6odWbrj7qtD5FiaCayyUYMId+T8QkyXGXpFPOmjh/HXnXlX7tLnuwBqbrbeS8wFVVBbgUxJH4FyIM+7TJP9JOkSE/l5RHf/iJFtjgzZ6FyLmQw4Z8OYjXjfm6royYGslyz68qo4BY/npoXKNCzSHXtjyspsJ9Xo="
+        api_key: "katI8h+sgIxYJLLog5GZG5yHN2VFd8kIOELCmxvBQyaUlkehc5+QkRmcsnZFHs4yu79nqLWt78dBsINtD9kZuKGGBO8GXV+v9diLldqgzVvNCJedXAVf8yWh30Idteeu3+D+Vd8KhNZC2JlguS4b3Dr1eZ6K6YykMLFk+2EEJ83EZByk5M+t6+lLkpB32yihDndsJS/8652Xxn+J8tBDODFr78rEse2fofSmZR5jO8BVxv8l3n2ofJhvk9RMLBZaJeK9isIQvoCLK/V7a1vob+20IKIolmKiKWB1BTrixPrbHo3weBWz2VEAGjwClYRBtlV8ItGcffQcCZ/Vpj9lrQ681FTEHq0Wpdg5hxdypazK8QBFQdYtPrwEuHOoCfMmKY8RMm0ykWshEd+a4m51G1nhZYP1U3TBy3fn45bn/jz/ukMHVGHdkEyToRVwd25hMck/AFfDdsYgv96Q4yiBp2yq/XD+wG1hNyGFC0Fb67QCSZh6YYTomKUed7qZn73+TOuRkBK1UUYznryzv2u+ksPSHTbLsdVtfHfcNDbsKVsiL1uaLCVAtl66CwlINjXC9t0D40Gg/mBqQ9NFa/S5G2zng8iJOyNbX1tV6Qfyufb0TpVrQqoGgitWLwzjsKGQYoa4avgvwIkXeGvIRm4TZQUAVFq8oYEhgqFpGMC9hRE="
         file: dist/*
+        file_glob: true
         skip_cleanup: true
         on:
           tags: true
