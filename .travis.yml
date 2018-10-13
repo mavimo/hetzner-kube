@@ -45,16 +45,19 @@ jobs:
     #   go: 1.10.x
 
     - stage: Build
+      go: 1.10.x
       script:
         - echo "Build binary ..."
         - make build
         - ls -la dist/
         - env
-      go: 1.10.x
       if: tag IS present
 
     - stage: GitHub Release
-      script: echo "Deploying to GitHub releases ..."
+      script:
+        - echo "Deploying to GitHub releases ..."
+        - ls -la dist/
+      go: 1.10.x
       deploy:
         provider: releases
         # NOTE updating the `api_key.secure`
