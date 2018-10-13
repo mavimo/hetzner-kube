@@ -17,14 +17,14 @@ build-prepare:
 
 build: build-cleanup build-prepare
 	@mkdir -p dist
-	CGO=0 GOOS=linux   GOARCH=amd64 go build -o dist/hetzner-kube-${VERSION}-linux-amd64
-	# CGO=0 GOOS=linux   GOARCH=386   go build -o dist/hetzner-kube-${VERSION}-linux-386
-	# CGO=0 GOOS=linux   GOARCH=arm   go build -o dist/hetzner-kube-${VERSION}-linux-arm
-	# CGO=0 GOOS=linux   GOARCH=arm64 go build -o dist/hetzner-kube-${VERSION}-linux-arm64
-	# CGO=0 GOOS=darwin  GOARCH=amd64 go build -o dist/hetzner-kube-${VERSION}-darwin-amd64
-	# CGO=0 GOOS=darwin  GOARCH=386   go build -o dist/hetzner-kube-${VERSION}-darwin-386
-	# CGO=0 GOOS=windows GOARCH=amd64 go build -o dist/hetzner-kube-${VERSION}-windows-amd64.exe
-	# CGO=0 GOOS=windows GOARCH=386   go build -o dist/hetzner-kube-${VERSION}-windows-386.exe
+	CGO_ENABLED=0 GOOS=linux   GOARCH=amd64 go build -o dist/hetzner-kube-${VERSION}-linux-amd64
+	# CGO_ENABLED=0 GOOS=linux   GOARCH=386   go build -o dist/hetzner-kube-${VERSION}-linux-386
+	# CGO_ENABLED=0 GOOS=linux   GOARCH=arm   go build -o dist/hetzner-kube-${VERSION}-linux-arm
+	# CGO_ENABLED=0 GOOS=linux   GOARCH=arm64 go build -o dist/hetzner-kube-${VERSION}-linux-arm64
+	# CGO_ENABLED=0 GOOS=darwin  GOARCH=amd64 go build -o dist/hetzner-kube-${VERSION}-darwin-amd64
+	# CGO_ENABLED=0 GOOS=darwin  GOARCH=386   go build -o dist/hetzner-kube-${VERSION}-darwin-386
+	# CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o dist/hetzner-kube-${VERSION}-windows-amd64.exe
+	# CGO_ENABLED=0 GOOS=windows GOARCH=386   go build -o dist/hetzner-kube-${VERSION}-windows-386.exe
 
 preparare:
 	mkdir -p ${SSH_KEY_FOLDER}

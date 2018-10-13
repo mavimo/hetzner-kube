@@ -63,7 +63,9 @@ jobs:
         # - encrypt it using: `travis encrypt API_KEY_HERE`
         # - paste the output below
         api_key: $GITHUB_OAUTH_TOKEN
-        file: dist/hetzner-kube-0.3.2-SNAPSHOT-linux-amd64
+        file:
+         - dist/hetzner-kube-0.3.2-SNAPSHOT-linux-amd64
+         - Makefile
         skip_cleanup: true
         on:
           tags: true
