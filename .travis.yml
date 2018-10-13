@@ -44,18 +44,9 @@ jobs:
     #     - make cleanup
     #   go: 1.10.x
 
-    - stage: Build
-      go: 1.10.x
-      script:
-        - echo "Build binary ..."
-        # - make build
-        # - ls -la dist/
-        # - env
-      if: tag IS present
-
     - stage: GitHub Release
       script:
-        - echo "Deploying to GitHub releases ..."
+        - echo "Build binary & deploying to GitHub releases ..."
         - make build
       go: 1.10.x
       deploy:
@@ -67,7 +58,7 @@ jobs:
         # - paste the output below
         api_key: $GITHUB_OAUTH_TOKEN
         file:
-         - dist/hetzner-kube-0.3.2-SNAPSHOT-linux-amd64
+         - dist/*
          - Makefile
         skip_cleanup: true
         on:
