@@ -63,8 +63,7 @@ jobs:
         # - encrypt it using: `travis encrypt API_KEY_HERE`
         # - paste the output below
         api_key: $GITHUB_OAUTH_TOKEN
-        file:
-          - dist/hetzner-kube-*
+        file: dist/**/*
         file_glob: true
         skip_cleanup: true
         on:
