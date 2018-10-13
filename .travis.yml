@@ -54,10 +54,10 @@ jobs:
       if: tag IS present
 
     - stage: GitHub Release
-      script:
-        - echo "Deploying to GitHub releases ..."
-        - ls -la dist/
-      go: 1.10.x
+    #   script:
+    #     - echo "Deploying to GitHub releases ..."
+    #     - ls -la dist/
+    #   go: 1.10.x
       deploy:
         provider: releases
         # NOTE updating the `api_key.secure`
