@@ -44,21 +44,17 @@ jobs:
     #     - make cleanup
     #   go: 1.10.x
 
-    - stage: GitHub Release
+    - stage: Build
       script:
         - echo "Build binary & deploying to GitHub releases ..."
         - make build
       go: 1.10.x
-      deploy:
-        provider: releases
-        # NOTE updating the `api_key.secure`
-        # - go to: https://github.com/settings/tokens/new
-        # - generate new token using `public_repo` scope
-        # - encrypt it using: `travis encrypt API_KEY_HERE`
-        # - paste the output below
-        api_key: $GITHUB_OAUTH_TOKEN
-        file_glob: yes
-        file: dist/*
-        skip_cleanup: true
-        on:
-          tags: true
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_OAUTH_TOKEN
+  file_glob: yes
+  file: dist/*
+  skip_cleanup: true
+  on:
+    tags: true
