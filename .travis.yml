@@ -57,8 +57,8 @@ jobs:
         # - encrypt it using: `travis encrypt API_KEY_HERE`
         # - paste the output below
         api_key: $GITHUB_OAUTH_TOKEN
-        file:
-         - dist/*
+        file_glob: yes
+        file: dist/*
         skip_cleanup: true
         on:
           tags: true
